@@ -1,8 +1,12 @@
 # DRF Blog API 🚀
 
 ![Django CI](https://github.com/UMAR010FAROOQ/drf-blog-api/actions/workflows/django.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
+![DRF](https://img.shields.io/badge/DRF-ff1709?style=flat&logo=django&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> A production-oriented Blog REST API built with Django REST Framework — featuring JWT authentication, service-layer architecture, nested comments, API versioning, and automated testing.
+> A production-oriented Blog REST API built with Django REST Framework — featuring JWT authentication, service-layer architecture, nested comments, API versioning, Docker support, and automated CI/CD.
 
 ---
 
@@ -18,8 +22,9 @@
 - 📦 Custom Consistent API Response Format
 - ⚡ Query Optimization (`select_related`, `prefetch_related`)
 - 🧪 Automated API Testing
-- 🚀 CI Pipeline (GitHub Actions)
+- 🚀 CI/CD Pipeline (GitHub Actions)
 - 📘 Swagger API Documentation (drf-spectacular)
+- 🐳 Docker + PostgreSQL support
 
 ---
 
@@ -30,6 +35,7 @@
 | Backend | Django, Django REST Framework |
 | Auth | SimpleJWT |
 | Database | SQLite (dev) / PostgreSQL (prod) |
+| Containerization | Docker, Docker Compose |
 | API Docs | drf-spectacular (Swagger UI) |
 | Testing | Django APITestCase |
 | CI/CD | GitHub Actions |
@@ -41,9 +47,20 @@
 ```bash
 git clone https://github.com/UMAR010FAROOQ/drf-blog-api.git
 cd drf-blog-api
+cp .env.example .env
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
+
+---
+
+## 🐳 Docker Setup (PostgreSQL)
+
+```bash
+docker compose up --build
+docker compose exec web python manage.py migrate
+docker compose exec web python manage.py createsuperuser
 ```
 
 ---
@@ -58,7 +75,9 @@ JWT-based authentication:
 | `/api/auth/refresh/` | POST | Refresh access token |
 
 **Header format:**
+```
 Authorization: Bearer <access_token>
+```
 
 ---
 
@@ -82,7 +101,10 @@ Authorization: Bearer <access_token>
 ## 📘 API Documentation
 
 Swagger UI available at:
+
+```
 http://localhost:8000/api/docs/
+```
 
 ---
 
@@ -92,19 +114,21 @@ http://localhost:8000/api/docs/
 python manage.py test
 ```
 
-Covers: endpoint testing, authentication, permission validation.
+Covers: endpoint testing, authentication flows, permission validation.
 
 ---
 
 ## 🧠 Architecture Decisions
 
-**Service Layer** — business logic separated from views for maintainability and testability.
+**Service Layer** — business logic fully separated from views for maintainability and testability.
 
-**Soft Delete** — records marked inactive instead of permanently deleted, allowing data recovery.
+**Soft Delete** — records marked inactive instead of permanently deleted, allowing data recovery and audit trails.
 
-**API Versioning** — all routes under `/api/v1/` ensuring backward compatibility.
+**API Versioning** — all routes under `/api/v1/` ensuring backward compatibility as the API evolves.
 
-**Query Optimization** — `select_related` and `prefetch_related` used throughout to minimize DB hits.
+**Query Optimization** — `select_related` and `prefetch_related` used throughout to minimize database round-trips.
+
+**Custom Response Format** — consistent JSON structure across all endpoints for predictable client integration.
 
 ---
 
@@ -112,6 +136,8 @@ Covers: endpoint testing, authentication, permission validation.
 
 ```json
 POST /api/v1/posts/
+Authorization: Bearer <token>
+
 {
   "title": "My First Post",
   "content": "Content here...",
@@ -122,23 +148,19 @@ POST /api/v1/posts/
 
 ---
 
----
+## 📸 Project Screenshots
 
-# 📸 Project Screenshots
-
-## Swagger API Documentation
+### Swagger API Documentation
 
 ![Swagger Docs](screenshots/swagger-docs.png)
 
 ---
 
-## JWT Authentication
+### JWT Authentication
 
 ![JWT Login](screenshots/jwt-login.png)
 
 ---
-
-
 
 ## 👨‍💻 Author
 
