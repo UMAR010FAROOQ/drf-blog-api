@@ -1,169 +1,46 @@
-# 🚀 DRF Blog API
+# DRF Blog API 🚀
 
-A production-oriented Blog API built with Django REST Framework, implementing authentication, clean architecture, API versioning, and automated testing.
+![Django CI](https://github.com/UMAR010FAROOQ/drf-blog-api/actions/workflows/django.yml/badge.svg)
 
----
-
-## 🔥 Features
-
-* ✅ API Versioning (`/api/v1/`)
-* 🔐 JWT Authentication (Login + Refresh)
-* 🧱 Structured Auth Routes (`/api/auth/`)
-* 🛡️ Permission-based Access Control
-* 📝 Blog Posts CRUD
-* 💬 Nested Comment System (replies supported)
-* ♻️ Soft Delete (no permanent data loss)
-* 🧠 Service Layer Architecture
-* 🔍 Filtering, Search, Ordering
-* 📄 Pagination
-* 📦 Custom API Response Format
-* ⚡ Query Optimization (`select_related`, `prefetch_related`)
-* 🧪 Automated API Testing (`APITestCase`)
-* 🚀 CI Pipeline (GitHub Actions)
-* 📘 API Documentation (Swagger via drf-spectacular)
+> A production-oriented Blog REST API built with Django REST Framework — featuring JWT authentication, service-layer architecture, nested comments, API versioning, and automated testing.
 
 ---
 
-## 🧠 Tech Stack
+## ✨ Features
 
-* Python
-* Django
-* Django REST Framework
-* SimpleJWT
-* drf-spectacular (Swagger)
-* SQLite (can be replaced with PostgreSQL)
-
----
-
-## 🔐 Authentication
-
-JWT-based authentication:
-
-* Login → `/api/auth/login/`
-* Refresh → `/api/auth/refresh/`
-
-### Header format:
-
-Authorization: Bearer `<access_token>`
+- ✅ API Versioning (`/api/v1/`)
+- 🔐 JWT Authentication (Login + Refresh)
+- 🛡️ Permission-based Access Control
+- 📝 Blog Posts CRUD with filtering, search & ordering
+- 💬 Nested Comment System (threaded replies)
+- ♻️ Soft Delete (no permanent data loss)
+- 🧠 Service Layer Architecture
+- 📦 Custom Consistent API Response Format
+- ⚡ Query Optimization (`select_related`, `prefetch_related`)
+- 🧪 Automated API Testing
+- 🚀 CI Pipeline (GitHub Actions)
+- 📘 Swagger API Documentation (drf-spectacular)
 
 ---
 
-## 📌 API Structure
+## ⚙️ Tech Stack
 
-### Versioned Base URL:
-
-```id="v1base"
-/api/v1/
-```
-
----
-
-### 📝 Posts
-
-* `GET /posts/`
-* `POST /posts/`
-* `GET /posts/{id}/`
-* `PUT /posts/{id}/`
-* `DELETE /posts/{id}/`
+| Category | Technology |
+|---|---|
+| Backend | Django, Django REST Framework |
+| Auth | SimpleJWT |
+| Database | SQLite (dev) / PostgreSQL (prod) |
+| API Docs | drf-spectacular (Swagger UI) |
+| Testing | Django APITestCase |
+| CI/CD | GitHub Actions |
 
 ---
 
-### 💬 Comments
+## 🚀 Local Setup
 
-* `POST /comments/`
-* Nested replies supported using `parent` field
-
----
-
-### ⚙️ Custom Endpoints
-
-* `GET /posts/my_posts/`
-* `GET /posts/{id}/comments/`
-
----
-
-## 📘 API Documentation
-
-Swagger UI available at:
-
-```id="swagger"
-/api/docs/
-```
-
----
-
-## 🧪 Testing
-
-Run tests:
-
-```bash id="testcmd"
-python manage.py test
-```
-
-Includes:
-
-* API endpoint testing
-* Authentication testing
-* Permission validation
-
----
-
-## 🔄 CI/CD (GitHub Actions)
-
-Automated pipeline runs on every push:
-
-* Install dependencies
-* Run tests
-* Validate code integrity
-
----
-
-## 🧠 Architecture Decisions
-
-### 🔹 Service Layer
-
-Business logic is separated from views to:
-
-* Improve maintainability
-* Enable reusability
-* Simplify testing
-
-### 🔹 Custom Response Format
-
-Ensures consistent API responses across all endpoints.
-
-### 🔹 Soft Delete
-
-Prevents permanent data loss and allows recovery.
-
-### 🔹 API Versioning
-
-Ensures backward compatibility and future scalability.
-
-### 🔹 Query Optimization
-
-Used `select_related` and `prefetch_related` to reduce DB queries.
-
----
-
-## 🧪 Example Request (Create Post)
-
-```json id="reqexample"
-{
-  "title": "My Post",
-  "content": "Content here",
-  "is_published": true,
-  "category_ids": [1]
-}
-```
-
----
-
-## 🚀 Setup Instructions
-
-```bash id="setupcmd"
+```bash
 git clone https://github.com/UMAR010FAROOQ/drf-blog-api.git
-cd blog_api
+cd drf-blog-api
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
@@ -171,7 +48,83 @@ python manage.py runserver
 
 ---
 
+## 🔐 Authentication
+
+JWT-based authentication:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/auth/login/` | POST | Get access + refresh token |
+| `/api/auth/refresh/` | POST | Refresh access token |
+
+**Header format:**
+Authorization: Bearer <access_token>
+
+---
+
+## 📌 API Endpoints
+
+**Base URL:** `/api/v1/`
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/posts/` | GET | List all posts |
+| `/posts/` | POST | Create a post |
+| `/posts/{id}/` | GET | Get single post |
+| `/posts/{id}/` | PUT | Update post |
+| `/posts/{id}/` | DELETE | Soft delete post |
+| `/posts/my_posts/` | GET | Current user's posts |
+| `/posts/{id}/comments/` | GET | Post comments |
+| `/comments/` | POST | Add comment / reply |
+
+---
+
+## 📘 API Documentation
+
+Swagger UI available at:
+http://localhost:8000/api/docs/
+
+---
+
+## 🧪 Testing
+
+```bash
+python manage.py test
+```
+
+Covers: endpoint testing, authentication, permission validation.
+
+---
+
+## 🧠 Architecture Decisions
+
+**Service Layer** — business logic separated from views for maintainability and testability.
+
+**Soft Delete** — records marked inactive instead of permanently deleted, allowing data recovery.
+
+**API Versioning** — all routes under `/api/v1/` ensuring backward compatibility.
+
+**Query Optimization** — `select_related` and `prefetch_related` used throughout to minimize DB hits.
+
+---
+
+## 📦 Example Request
+
+```json
+POST /api/v1/posts/
+{
+  "title": "My First Post",
+  "content": "Content here...",
+  "is_published": true,
+  "category_ids": [1]
+}
+```
+
+---
+
 ## 👨‍💻 Author
 
-Umar Farooq
-Backend Developer (Django / DRF)
+**Umar Farooq** — Backend Developer (Django / DRF)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/umar-farooq-developer)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/UMAR010FAROOQ)
