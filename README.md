@@ -122,6 +122,24 @@ POST /api/v1/posts/
 
 ---
 
+---
+
+# 📸 Project Screenshots
+
+## Swagger API Documentation
+
+![Swagger Docs](screenshots/swagger-docs.png)
+
+---
+
+## JWT Authentication
+
+![JWT Login](screenshots/jwt-login.png)
+
+---
+
+
+
 ## 👨‍💻 Author
 
 **Umar Farooq** — Backend Developer (Django / DRF)
